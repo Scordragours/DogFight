@@ -1,3 +1,8 @@
 package Model;
 
-enum Direction{}
+enum Direction{
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+}

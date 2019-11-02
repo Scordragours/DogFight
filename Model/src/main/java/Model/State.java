@@ -1,3 +1,7 @@
 package Model;
 
-public enum State{}
+public enum State{
+    Life,
+    Dead,
+    Reappears
+}
