@@ -17,6 +17,24 @@ public class Missiles extends Entity{
         this.setEquipe(Equipe);
     }
 
+    // Méthodes :
+    public void Deplacer(){
+        switch(this.getDirection()){
+            case LEFT:
+                this.getPosition().setX(this.getPosition().getX() - 1);
+                break;
+            case RIGHT:
+                this.getPosition().setX(this.getPosition().getX() + 1);
+                break;
+            case UP:
+                this.getPosition().setY(this.getPosition().getY() - 1);
+                break;
+            case DOWN:
+                this.getPosition().setY(this.getPosition().getY() + 1);
+                break;
+        }
+    }
+
     // Getter :
     public Equipe getEquipe(){
         return this.Equipe;

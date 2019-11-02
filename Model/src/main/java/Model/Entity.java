@@ -6,7 +6,7 @@ public abstract class Entity{
 
     // Constructeur :
     public Entity(){
-
+        this.setPosition(new Position(0, 0));
     }
     public Entity(Entity Entity){
         this.setPosition(new Position(Entity.getPosition()));

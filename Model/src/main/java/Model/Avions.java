@@ -29,6 +29,26 @@ class Avions extends Entity{
         this.setPseudo("none");
     }
 
+    // Méthodes :
+    public void Deplacer(){
+        if(this.getState() == State.Life){
+            switch(this.getDirection()){
+                case LEFT:
+                    this.getPosition().setX(this.getPosition().getX() - 1);
+                    break;
+                case RIGHT:
+                    this.getPosition().setX(this.getPosition().getX() + 1);
+                    break;
+                case UP:
+                    this.getPosition().setY(this.getPosition().getY() - 1);
+                    break;
+                case DOWN:
+                    this.getPosition().setY(this.getPosition().getY() + 1);
+                    break;
+            }
+        }
+    }
+
     // Getter :
     public Equipe getEquipe(){
         return this.Equipe;
