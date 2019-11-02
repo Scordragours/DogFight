@@ -27,10 +27,10 @@ public class Position{
     }
 
     // Setter :
-    public void setX(double X){
+    private void setX(double X){
         this.X = X;
     }
-    public void setY(double Y){
+    private void setY(double Y){
         this.Y = Y;
     }
 }
