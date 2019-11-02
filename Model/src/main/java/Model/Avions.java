@@ -10,7 +10,8 @@ class Avions extends Entity{
     private String Pseudo;
 
     // Constructeur :
-    public Avions(Equipe Equipe, String Pseudo){
+    public Avions(Equipe Equipe, String Pseudo, double X, double Y){
+        super(X, Y);
         this.setEquipe(Equipe);
         this.setScore(0);
         this.setState(State.Life);
@@ -19,6 +20,7 @@ class Avions extends Entity{
         this.setPseudo(Pseudo);
     }
     public Avions(){
+        super(0, 0);
         this.setEquipe(Equipe.France);
         this.setScore(0);
         this.setState(State.Life);
