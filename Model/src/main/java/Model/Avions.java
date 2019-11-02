@@ -13,16 +13,16 @@ class Avions extends Entity{
     public Avions(Equipe Equipe, String Pseudo){
         this.setEquipe(Equipe);
         this.setScore(0);
-        //this.setState();
-        //this.setDirection();
+        this.setState(State.Life);
+        this.setDirection(Direction.LEFT);
         this.setTempsReappear(0);
         this.setPseudo(Pseudo);
     }
     public Avions(){
-        //this.setEquipe();
+        this.setEquipe(Equipe.France);
         this.setScore(0);
-        //this.setState();
-        //this.setDirection();
+        this.setState(State.Life);
+        this.setDirection(Direction.LEFT);
         this.setTempsReappear(0);
         this.setPseudo("none");
     }
