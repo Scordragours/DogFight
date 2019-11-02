@@ -1,4 +1,4 @@
-package model;
+package Model;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -10,6 +10,9 @@ public class Model extends Observable{
 	private int TailleX, TailleY;
 	private Entity Entity[][];
 	private Avions Players[];
+	private Timer Timer;
+	private boolean PartieFini = false;
+
 	private ServerSocket ServerSocket;
 	private Socket PlayersConnection[];
 
@@ -32,14 +35,15 @@ public class Model extends Observable{
 	// Méthodes :
 	public void UpdatePlayer(int Identifiants){}
 	public void StartServer(){
-        for(int i = 0; i < 2; i++){
-            try{
-                this.getPlayersConnection()[i] = this.getServerSocket().accept();
-                System.out.print("valider");
-            }catch(IOException e){
-                System.err.println("Erreur client refusé.");
-            }
-        }
+		this.getTimer().run();
+		for(int i = 0; i < 2; i++){
+			try{
+				this.getPlayersConnection()[i] = this.getServerSocket().accept();
+				System.out.print("valider");
+			}catch(IOException e){
+				System.err.println("Erreur client refusé.");
+			}
+		}
     }
 
 	// Getters :
@@ -49,7 +53,7 @@ public class Model extends Observable{
 	public int getTailleY(){
 		return this.TailleY;
 	}
-	public model.Entity[][] getEntity(){
+	public Entity[][] getEntity(){
 		return this.Entity;
 	}
 	public Avions[] getPlayers(){
@@ -61,18 +65,24 @@ public class Model extends Observable{
     public Socket[] getPlayersConnection(){
         return this.PlayersConnection;
     }
-    public java.net.ServerSocket getServerSocket(){
+    public ServerSocket getServerSocket(){
         return this.ServerSocket;
     }
+	public boolean isPartieFini(){
+		return this.PartieFini;
+	}
+	public Timer getTimer(){
+		return this.Timer;
+	}
 
-    // Setters :
+	// Setters :
 	private void setTailleX(int TailleX){
 		this.TailleX = TailleX;
 	}
 	private void setTailleY(int TailleY){
 		this.TailleY = TailleY;
 	}
-	private void setEntity(model.Entity[][] Entity){
+	private void setEntity(Entity[][] Entity){
 		this.Entity = Entity;
 	}
 	private void setPlayers(Avions[] Players){
@@ -81,7 +91,13 @@ public class Model extends Observable{
     private void setPlayersConnection(Socket[] PlayersConnection){
         this.PlayersConnection = PlayersConnection;
     }
-    private void setServerSocket(java.net.ServerSocket ServerSocket){
+    private void setServerSocket(ServerSocket ServerSocket){
         this.ServerSocket = ServerSocket;
     }
+	protected void setPartieFini(boolean PartieFini){
+		this.PartieFini = PartieFini;
+	}
+	public void setTimer(Timer Timer){
+		this.Timer = Timer;
+	}
 }
