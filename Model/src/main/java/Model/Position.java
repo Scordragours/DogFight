@@ -13,6 +13,10 @@ public class Position{
         this.setX(Position[0]);
         this.setY(Position[1]);
     }
+    public Position(Position Position){
+        this.setX(Position.getX());
+        this.setY(Position.getY());
+    }
     public Position(double X, double Y){
         this.setX(X);
         this.setY(Y);
@@ -27,10 +31,10 @@ public class Position{
     }
 
     // Setter :
-    private void setX(double X){
+    protected void setX(double X){
         this.X = X;
     }
-    private void setY(double Y){
+    protected void setY(double Y){
         this.Y = Y;
     }
 }
