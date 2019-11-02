@@ -3,9 +3,8 @@ package Model;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Observable;
 
-public class Model extends Observable{
+public class Model{
 	// Attributs :
 	private int TailleX, TailleY;
 	private Entity Entity[][];
@@ -33,8 +32,57 @@ public class Model extends Observable{
 	}
 
 	// Méthodes :
-	public void UpdatePlayer(int Identifiants){}
-	public void UpdateMap(){}
+	public void UpdatePlayer(int Identifiants){
+	    this.getPlayers()[Identifiants].Deplacer();
+    }
+	public void UpdateMap(){
+	    if(this.isPartieFini()){
+	        for(int Y = 0; Y < this.getTailleY(); Y++){
+	            for(int X = 0; X < this.getTailleX(); X++){
+
+	                if(this.getEntity()[Y][X] instanceof Missiles){
+
+	                	Missiles MissilesTemp = ((Missiles) this.getEntity()[Y][X]);
+						if(!MissilesTemp.isDeplacer()){
+
+							int x = X, y = Y;
+							switch(MissilesTemp.getDirection()){
+								case LEFT:
+									x--;
+									break;
+								case RIGHT:
+									x++;
+									break;
+								case UP:
+									y--;
+									break;
+								case DOWN:
+									y++;
+									break;
+							}
+							MissilesTemp.Deplacer();
+							MissilesTemp.setDeplacer(true);
+							if(this.getEntity()[y][x].getStateMap() == StateMap.Avions){
+								Avions AvionsTemp = (Avions) this.getEntity()[y][x];
+								if(AvionsTemp.getEquipe() != MissilesTemp.getEquipe()){
+									AvionsTemp.setState(State.Dead);
+
+								}
+							}
+
+						}
+
+						this.getEntity()[Y][X] = null;
+                    }
+                }
+            }
+
+
+	        for(int i = 0; i < 2; i++){
+	            this.UpdatePlayer(i);
+            }
+        }
+    }
 	public void StartServer(){
 		this.getTimer().run();
 		for(int i = 0; i < 2; i++){
@@ -59,9 +107,6 @@ public class Model extends Observable{
 	}
 	public Avions[] getPlayers(){
 		return this.Players;
-	}
-	public Observable getObservable(){
-		return this;
 	}
     public Socket[] getPlayersConnection(){
         return this.PlayersConnection;

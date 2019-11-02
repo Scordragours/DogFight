@@ -4,6 +4,7 @@ public class Missiles extends Entity{
     // Attributs :
     private Equipe Equipe;
     private Direction Direction;
+    private boolean Deplacer = false;
 
     // Constructeur :
     public Missiles(){
@@ -44,6 +45,9 @@ public class Missiles extends Entity{
     public Direction getDirection(){
         return this.Direction;
     }
+    public boolean isDeplacer(){
+        return this.Deplacer;
+    }
 
     // Setter :
     public void setEquipe(Equipe Equipe){
@@ -51,5 +55,8 @@ public class Missiles extends Entity{
     }
     public void setDirection(Direction Direction){
         this.Direction = Direction;
+    }
+    public void setDeplacer(boolean Deplacer){
+        this.Deplacer = Deplacer;
     }
 }
