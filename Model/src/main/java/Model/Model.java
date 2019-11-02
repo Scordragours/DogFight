@@ -40,7 +40,7 @@ public class Model extends Observable{
 		for(int i = 0; i < 2; i++){
 			try{
 				this.getPlayersConnection()[i] = this.getServerSocket().accept();
-				System.out.print("valider");
+				System.out.println("valider");
 			}catch(IOException e){
 				System.err.println("Erreur client refusé.");
 			}

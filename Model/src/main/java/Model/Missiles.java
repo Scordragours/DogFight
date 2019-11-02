@@ -8,11 +8,13 @@ public class Missiles extends Entity{
     // Constructeur :
     public Missiles(){
         super(0, 0);
+        this.setStateMap(StateMap.Missiles);
         this.setEquipe(Equipe.France);
         this.setDirection(Direction.LEFT);
     }
     public Missiles(Direction Direction, Equipe Equipe, double X, double Y){
         super(X, Y);
+        this.setStateMap(StateMap.Missiles);
         this.setDirection(Direction);
         this.setEquipe(Equipe);
     }
