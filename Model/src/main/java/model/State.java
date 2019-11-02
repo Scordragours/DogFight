@@ -1,3 +1,3 @@
-package model;
+package Model;
 
 public enum State{}

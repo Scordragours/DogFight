@@ -1,3 +1,3 @@
-package model;
+package Model;
 
-public class Avions{}
+class Avions{}
