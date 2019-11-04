@@ -4,6 +4,7 @@ public abstract class Entity{
     // Attributs :
     private Position Position;
     private StateMap StateMap;
+    private boolean Deplacer = false;
 
     // Constructeur :
     public Entity(){
@@ -13,7 +14,7 @@ public abstract class Entity{
     public Entity(Entity Entity){
         this.setPosition(new Position(Entity.getPosition()));
     }
-    public Entity(double X, double Y){
+    public Entity(int X, int Y){
         this.setPosition(new Position(X, Y));
     }
 
@@ -24,6 +25,9 @@ public abstract class Entity{
     public StateMap getStateMap(){
         return this.StateMap;
     }
+    public boolean isDeplacer(){
+        return this.Deplacer;
+    }
 
     // Setter :
     public void setPosition(Position Position){
@@ -31,5 +35,8 @@ public abstract class Entity{
     }
     public void setStateMap(StateMap StateMap){
         this.StateMap = StateMap;
+    }
+    public void setDeplacer(boolean Deplacer){
+        this.Deplacer = Deplacer;
     }
 }

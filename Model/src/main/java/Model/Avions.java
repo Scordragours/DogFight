@@ -10,7 +10,7 @@ class Avions extends Entity{
     private String Pseudo;
 
     // Constructeur :
-    public Avions(Equipe Equipe, String Pseudo, double X, double Y){
+    public Avions(Equipe Equipe, String Pseudo, int X, int Y){
         super(X, Y);
         this.setStateMap(StateMap.Avions);
         this.setEquipe(Equipe);
@@ -29,6 +29,16 @@ class Avions extends Entity{
         this.setDirection(Direction.LEFT);
         this.setTempsReappear(0);
         this.setPseudo("none");
+    }
+    public Avions(Avions Player){
+        this.setTempsReappear(Player.getTempsReappear());
+        this.setState(Player.getState());
+        this.setPosition(Player.getPosition());
+        this.setScore(Player.getScore());
+        this.setStateMap(Player.getStateMap());
+        this.setPseudo(Player.getPseudo());
+        this.setEquipe(Player.getEquipe());
+        this.setDirection(Player.getDirection());
     }
 
     // Méthodes :
@@ -49,6 +59,7 @@ class Avions extends Entity{
                     break;
             }
         }
+        this.setDeplacer(true);
     }
 
     // Getter :

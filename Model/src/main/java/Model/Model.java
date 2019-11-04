@@ -36,7 +36,7 @@ public class Model{
 	    this.getPlayers()[Identifiants].Deplacer();
     }
 	public void UpdateMap(){
-	    if(this.isPartieFini()){
+	    if(!this.isPartieFini()){
 	        for(int Y = 0; Y < this.getTailleY(); Y++){
 	            for(int X = 0; X < this.getTailleX(); X++){
 
@@ -60,27 +60,57 @@ public class Model{
 									y++;
 									break;
 							}
+
 							MissilesTemp.Deplacer();
-							MissilesTemp.setDeplacer(true);
+
 							if(this.getEntity()[y][x].getStateMap() == StateMap.Avions){
 								Avions AvionsTemp = (Avions) this.getEntity()[y][x];
+
 								if(AvionsTemp.getEquipe() != MissilesTemp.getEquipe()){
 									AvionsTemp.setState(State.Dead);
-
+									for(int a = 0; a < 2; a++){
+										if(this.getPlayers()[a].getEquipe() == MissilesTemp.getEquipe()){
+											this.getPlayers()[a].setScore(this.getPlayers()[a].getScore() + 1);
+										}else{
+											this.getPlayers()[a].setPosition(new Position(0, 0));
+											this.getPlayers()[a].setState(State.Life);
+											this.getEntity()[0][0] = new Avions(this.getPlayers()[a]);
+										}
+									}
 								}
+								this.getEntity()[y][x] = null;
 							}
-
 						}
 
 						this.getEntity()[Y][X] = null;
                     }
+
+                    if(this.getEntity()[Y][X] instanceof Avions){
+                    	Avions PlayerTmp = (Avions) this.getEntity()[Y][X];
+                    	if(!PlayerTmp.isDeplacer()){
+							for(int i = 0; i < 2; i++){
+								if(this.getPlayers()[i].getPseudo().equals(PlayerTmp.getPseudo())){
+									this.UpdatePlayer(i);
+									this.getEntity()[this.getPlayers()[i].getPosition().getY()][this.getPlayers()[i].getPosition().getX()] = new Avions(this.getPlayers()[i]);
+								}
+							}
+                    	}
+
+						this.getEntity()[Y][X] = null;
+					}
+
                 }
             }
 
+            for(int i = 0; i < 2; i++){
+            	this.getPlayers()[i].setDeplacer(false);
+			}
 
-	        for(int i = 0; i < 2; i++){
-	            this.UpdatePlayer(i);
-            }
+			for(int Y = 0; Y < this.getTailleY(); Y++){
+				for(int X = 0; X < this.getTailleX(); X++){
+					this.getEntity()[Y][X].setDeplacer(false);
+				}
+			}
         }
     }
 	public void StartServer(){

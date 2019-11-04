@@ -2,14 +2,14 @@ package Model;
 
 public class Position{
     // Atributs
-    private double X, Y;
+    private int X, Y;
 
     // Constructeur :
     public Position(){
         this.setX(0);
         this.setY(0);
     }
-    public Position(double[] Position){
+    public Position(int[] Position){
         this.setX(Position[0]);
         this.setY(Position[1]);
     }
@@ -17,24 +17,24 @@ public class Position{
         this.setX(Position.getX());
         this.setY(Position.getY());
     }
-    public Position(double X, double Y){
+    public Position(int X, int Y){
         this.setX(X);
         this.setY(Y);
     }
 
     // Getter :
-    public double getX(){
+    public int getX(){
         return this.X;
     }
-    public double getY(){
+    public int getY(){
         return this.Y;
     }
 
     // Setter :
-    protected void setX(double X){
+    protected void setX(int X){
         this.X = X;
     }
-    protected void setY(double Y){
+    protected void setY(int Y){
         this.Y = Y;
     }
 }

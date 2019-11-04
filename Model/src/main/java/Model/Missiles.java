@@ -4,7 +4,6 @@ public class Missiles extends Entity{
     // Attributs :
     private Equipe Equipe;
     private Direction Direction;
-    private boolean Deplacer = false;
 
     // Constructeur :
     public Missiles(){
@@ -13,7 +12,7 @@ public class Missiles extends Entity{
         this.setEquipe(Equipe.France);
         this.setDirection(Direction.LEFT);
     }
-    public Missiles(Direction Direction, Equipe Equipe, double X, double Y){
+    public Missiles(Direction Direction, Equipe Equipe, int X, int Y){
         super(X, Y);
         this.setStateMap(StateMap.Missiles);
         this.setDirection(Direction);
@@ -36,6 +35,7 @@ public class Missiles extends Entity{
                 this.getPosition().setY(this.getPosition().getY() + 1);
                 break;
         }
+        this.setDeplacer(true);
     }
 
     // Getter :
@@ -45,9 +45,6 @@ public class Missiles extends Entity{
     public Direction getDirection(){
         return this.Direction;
     }
-    public boolean isDeplacer(){
-        return this.Deplacer;
-    }
 
     // Setter :
     public void setEquipe(Equipe Equipe){
@@ -55,8 +52,5 @@ public class Missiles extends Entity{
     }
     public void setDirection(Direction Direction){
         this.Direction = Direction;
-    }
-    public void setDeplacer(boolean Deplacer){
-        this.Deplacer = Deplacer;
     }
 }
