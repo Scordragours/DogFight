@@ -96,7 +96,6 @@ public class SocketClient implements Runnable{
         public Recevoir(){
             try{
                 String l = Input.readLine();
-                //System.out.print(l);
                 Model.getPlayers()[Identifiant].setPseudo(l);
             }catch(IOException e){
                 e.printStackTrace();
