@@ -13,7 +13,7 @@ public class Model{
 	private boolean PartieFini = false;
 
 	private ServerSocket ServerSocket;
-	private Socket PlayersConnection[];
+	private Thread PlayersConnection[];
 
 	// Constructeur :
 	public Model(int TailleX, int TailleY){
@@ -21,7 +21,6 @@ public class Model{
 		this.setTailleY(TailleY);
 		this.setEntity(new Entity[this.getTailleY()][this.getTailleX()]);
 		this.setPlayers(new Avions[2]);
-		this.setPlayersConnection(new Socket[2]);
 
 		try{
 			ServerSocket = new ServerSocket(802);
@@ -114,16 +113,18 @@ public class Model{
         }
     }
 	public void StartServer(){
-		this.getTimer().run();
 		for(int i = 0; i < 2; i++){
 			try{
-				this.getPlayersConnection()[i] = this.getServerSocket().accept();
-				System.out.println("valider");
+				this.getPlayersConnection()[i] = new Thread(new SocketClient(this.getServerSocket().accept(), this, i));
+				this.getPlayersConnection()[i].start();
+				System.out.println(this.getPlayers()[i].getPseudo());
+				System.out.println("Client connecté.");
 			}catch(IOException e){
 				System.err.println("Erreur client refusé.");
 			}
 		}
-    }
+		this.getTimer().run();
+	}
 
 	// Getters :
 	public int getTailleX(){
@@ -138,7 +139,7 @@ public class Model{
 	public Avions[] getPlayers(){
 		return this.Players;
 	}
-    public Socket[] getPlayersConnection(){
+    public Thread[] getPlayersConnection(){
         return this.PlayersConnection;
     }
     public ServerSocket getServerSocket(){
@@ -164,7 +165,7 @@ public class Model{
 	private void setPlayers(Avions[] Players){
 		this.Players = Players;
 	}
-    private void setPlayersConnection(Socket[] PlayersConnection){
+    private void setPlayersConnection(Thread[] PlayersConnection){
         this.PlayersConnection = PlayersConnection;
     }
     private void setServerSocket(ServerSocket ServerSocket){
