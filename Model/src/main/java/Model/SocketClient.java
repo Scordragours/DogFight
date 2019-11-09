@@ -11,80 +11,31 @@ public class SocketClient implements Runnable{
     private Socket ClientSocket;
     private BufferedReader Input;
     private PrintWriter Output;
-    private String Pseudo = " ";
+    private Thread TEnvoyer, TRecevoir;
+    private int _Identifiant;
     private Model Model;
-    private int Identifiant;
 
     // Constructeur :
-    public SocketClient(Socket Socket, Model Model, int i){
-        this.setClientSocket(Socket);
-        this.setModel(Model);
-        this.setIdentifiant(i);
+    SocketClient(Socket Socket, Model Model, int Identifiant){
+        this.ClientSocket = Socket;
+        this._Identifiant = Identifiant;
+        this.Model = Model;
+
         try{
-            this.setOutput(new PrintWriter(this.getClientSocket().getOutputStream()));
-            this.setInput(new BufferedReader(new InputStreamReader(this.getClientSocket().getInputStream())));
-
-            Envoyer Envoyer = new Envoyer();
-            Recevoir Recevoir = new Recevoir();
-
-            Thread TEnvoyer = new Thread(Envoyer);
-            TEnvoyer.start();
-
-            Thread TRecevoir = new Thread(Recevoir);
-            TRecevoir.start();
+            this.Output = new PrintWriter(this.ClientSocket.getOutputStream());
+            this.Input = new BufferedReader(new InputStreamReader(this.ClientSocket.getInputStream()));
         }catch(IOException e){
             e.printStackTrace();
         }
-    }
 
-    // Getter :
-    public Socket getClientSocket(){
-        return this.ClientSocket;
-    }
-    public BufferedReader getInput(){
-        return this.Input;
-    }
-    public PrintWriter getOutput(){
-        return this.Output;
-    }
-    public String getPseudo(){
-        return this.Pseudo;
-    }
-    public Model getModel(){
-        return this.Model;
-    }
-    public int getIdentifiant(){
-        return this.Identifiant;
-    }
-
-    // Setter :
-    public void setClientSocket(Socket ClientSocket){
-        this.ClientSocket = ClientSocket;
-    }
-    public void setInput(BufferedReader Input){
-        this.Input = Input;
-    }
-    public void setOutput(PrintWriter Output){
-        this.Output = Output;
-    }
-    public void setPseudo(String Pseudo){
-        this.Pseudo = Pseudo;
-    }
-    public void setModel(Model Model){
-        this.Model = Model;
-    }
-    public void setIdentifiant(int Identifiant){
-        this.Identifiant = Identifiant;
+        this.TEnvoyer = new Thread(new Envoyer());
+        this.TRecevoir = new Thread(new Recevoir());
     }
 
     // Méthodes :
     public void run(){
-        try{
-            this.setOutput(new PrintWriter(this.getClientSocket().getOutputStream()));
-            this.setInput(new BufferedReader(new InputStreamReader(this.getClientSocket().getInputStream())));
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+        this.TEnvoyer.start();
+        this.TRecevoir.start();
     }
 
     // Class Interne :
@@ -93,34 +44,26 @@ public class SocketClient implements Runnable{
     }
     class Recevoir implements Runnable{
         String Message;
-        public Recevoir(){
+
+        Recevoir(){
             try{
-                String l = Input.readLine();
-                //System.out.print(l);
-                Model.getPlayers()[Identifiant].setPseudo(l);
+                Message = Input.readLine();
+                System.out.println(Message);
             }catch(IOException e){
                 e.printStackTrace();
             }
+
         }
+
         public void run(){
             try{
-                while(true){
+                Message = Input.readLine();
+                while(Message != null){
+                    System.out.println("Client : "+ Message);
                     Message = Input.readLine();
-                    switch(Message){
-                        case "LEFT":
-                            Model.getPlayers()[Identifiant].setDirection(Direction.LEFT);
-                            break;
-                        case "RIGHT":
-                            Model.getPlayers()[Identifiant].setDirection(Direction.RIGHT);
-                            break;
-                        case "UP":
-                            Model.getPlayers()[Identifiant].setDirection(Direction.UP);
-                            break;
-                        case "DOWN":
-                            Model.getPlayers()[Identifiant].setDirection(Direction.DOWN);
-                            break;
-                    }
                 }
+                System.out.println("Client Crash");
+                Output.close();
             }catch(IOException e){
                 e.printStackTrace();
             }

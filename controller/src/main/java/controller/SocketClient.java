@@ -5,49 +5,52 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Scanner;
 
-public class SocketClient{
+public class SocketClient implements Runnable{
+    // Attributs :
     private Socket SocketClient;
     private BufferedReader Input;
     private PrintWriter Output;
-    private Scanner sc;
+    private Thread TEnvoyer, TRecevoir;
+    private int _Identifiant;
+    private SocketServer SocketServer;
 
     // Constructeur :
-    public SocketClient(Socket SocketClient){
-        this.setSocketClient(SocketClient);
+    public SocketClient(Socket SocketClient, SocketServer SocketServer, int Identifiant){
+        this.SocketClient = SocketClient;
+        this._Identifiant = Identifiant;
+        this.SocketServer = SocketServer;
+
         try{
-            sc = new Scanner(System.in);
-
-            Output = new PrintWriter(this.getSocketClient().getOutputStream());
-            Input = new BufferedReader (new InputStreamReader(this.getSocketClient().getInputStream()));
-
-            Envoi E = new Envoi();
-            Recevoir rec = new Recevoir();
-
-            Thread TEnvoi = new Thread(E);
-            Thread TRec = new Thread(rec);
-
-            TEnvoi.start();
-            TRec.start();
+            this.Output = new PrintWriter(this.SocketClient.getOutputStream());
+            this.Input = new BufferedReader (new InputStreamReader(this.SocketClient.getInputStream()));
         }catch(IOException e){
             e.printStackTrace();
         }
+
+        this.TEnvoyer = new Thread(new Envoi(this));
+        this.TRecevoir = new Thread(new Recevoir(this));
     }
 
-    // Getter :
-    public Socket getSocketClient(){
-        return this.SocketClient;
-    }
-
-    // Setter :
-    public void setSocketClient(Socket SocketClient){
-        this.SocketClient = SocketClient;
+    // Méthode :
+    public void run(){
+        this.TEnvoyer.start();
+        this.TRecevoir.start();
     }
 
     // Class interne :
     class Recevoir implements Runnable{
-        String msg ;
+        String msg;
+
+        Recevoir(SocketClient SocketClient){
+            try{
+                msg = Input.readLine();
+                SocketClient.SocketServer.Pseudo = msg;
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+
         public void run(){
             try{
                 msg = Input.readLine();
@@ -65,15 +68,9 @@ public class SocketClient{
             }
         }
     }
-
     class Envoi implements Runnable{
         String msg;
-        public void run(){
-            while(true){
-                msg = sc.nextLine();
-                Output.println(msg);
-                Output.flush();
-            }
-        }
+        Envoi(SocketClient SocketClient){}
+        public void run(){}
     }
 }

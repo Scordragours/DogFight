@@ -21,13 +21,6 @@ public class Model{
 		this.setTailleY(TailleY);
 		this.setEntity(new Entity[this.getTailleY()][this.getTailleX()]);
 		this.setPlayers(new Avions[2]);
-
-		try{
-			ServerSocket = new ServerSocket(802);
-			System.out.println("Serveur Start.");
-		}catch(IOException e){
-			System.err.println("Serveur Crash.");
-		}
 	}
 
 	// Méthodes :
@@ -113,11 +106,17 @@ public class Model{
         }
     }
 	public void StartServer(){
+		try{
+			this.setServerSocket(new ServerSocket(802));
+			System.out.println("Serveur Start.");
+		}catch(IOException e){
+			System.err.println("Serveur Crash.");
+		}
 		for(int i = 0; i < 2; i++){
 			try{
-				this.getPlayersConnection()[i] = new Thread(new SocketClient(this.getServerSocket().accept(), this, i));
+				this.getPlayersConnection()[i] = new Thread(new SocketClient(this.getServerSocket().accept(), this, 1));
 				this.getPlayersConnection()[i].start();
-				System.out.println(this.getPlayers()[i].getPseudo());
+				//System.out.println(this.getPlayers()[i].getPseudo());
 				System.out.println("Client connecté.");
 			}catch(IOException e){
 				System.err.println("Erreur client refusé.");
