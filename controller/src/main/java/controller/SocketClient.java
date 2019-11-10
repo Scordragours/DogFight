@@ -39,6 +39,11 @@ public class SocketClient implements Runnable{
     }
 
     // Class interne :
+    class Envoi implements Runnable{
+        String msg;
+        Envoi(SocketClient SocketClient){}
+        public void run(){}
+    }
     class Recevoir implements Runnable{
         String msg;
 
@@ -54,23 +59,15 @@ public class SocketClient implements Runnable{
         public void run(){
             try{
                 msg = Input.readLine();
-                //tant que le client est connecté
                 while(msg != null){
                     System.out.println("Client : "+ msg);
                     msg = Input.readLine();
                 }
-                //sortir de la boucle si le client a déconecté
                 System.out.println("Client déconecté");
-                //fermer le flux et la session socket
                 Output.close();
-            } catch (IOException e) {
+            }catch(IOException e){
                 e.printStackTrace();
             }
         }
-    }
-    class Envoi implements Runnable{
-        String msg;
-        Envoi(SocketClient SocketClient){}
-        public void run(){}
     }
 }

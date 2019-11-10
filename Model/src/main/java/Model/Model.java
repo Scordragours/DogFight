@@ -13,7 +13,7 @@ public class Model{
 	private boolean PartieFini = false;
 
 	private ServerSocket ServerSocket;
-	private Thread PlayersConnection[];
+	private Thread PlayersConnection[] = new Thread[2];
 
 	// Constructeur :
 	public Model(int TailleX, int TailleY){
@@ -21,6 +21,13 @@ public class Model{
 		this.setTailleY(TailleY);
 		this.setEntity(new Entity[this.getTailleY()][this.getTailleX()]);
 		this.setPlayers(new Avions[2]);
+
+		try{
+			this.setServerSocket(new ServerSocket(802));
+			System.out.println("Serveur Start.");
+		}catch(IOException e){
+			System.err.println("Serveur Crash.");
+		}
 	}
 
 	// Méthodes :
@@ -106,12 +113,6 @@ public class Model{
         }
     }
 	public void StartServer(){
-		try{
-			this.setServerSocket(new ServerSocket(802));
-			System.out.println("Serveur Start.");
-		}catch(IOException e){
-			System.err.println("Serveur Crash.");
-		}
 		for(int i = 0; i < 2; i++){
 			try{
 				this.getPlayersConnection()[i] = new Thread(new SocketClient(this.getServerSocket().accept(), this, 1));

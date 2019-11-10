@@ -52,7 +52,6 @@ public class SocketClient implements Runnable{
             }catch(IOException e){
                 e.printStackTrace();
             }
-
         }
 
         public void run(){

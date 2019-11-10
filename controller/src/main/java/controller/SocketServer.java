@@ -4,19 +4,27 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 public class SocketServer{
-    private ServerSocket serveurSocket;
-    private Thread SocketClient;
+    private ServerSocket ServeurSocket;
+    private Thread SocketClient[] = new Thread[2];
     public String Pseudo;
-    private int i = 1;
 
-    public void Socket(){
+    public SocketServer(){
         try{
-            serveurSocket = new ServerSocket(802);
-            SocketClient = new Thread(new SocketClient(serveurSocket.accept(), this, i));
-            SocketClient.start();
-            System.out.print(Pseudo);
-        }catch (IOException e){
+            this.ServeurSocket = new ServerSocket(802);
+        }catch(IOException e){
             e.printStackTrace();
+        }
+    }
+
+    public void StartServer(){
+        for(int i = 0; i < 2; i++){
+            try{
+                this.SocketClient[i] = new Thread(new SocketClient(this.ServeurSocket.accept(), this, i));
+                this.SocketClient[i].start();
+                System.out.print(this.Pseudo);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
         }
     }
 }

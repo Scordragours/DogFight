@@ -10,6 +10,5 @@ public class Main{
         UpdateMap.start();
         Model.setTimer(Timer);
         Model.StartServer();
-
     }
 }
